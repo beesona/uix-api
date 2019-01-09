@@ -3,44 +3,9 @@ var router = express.Router();
 var User = require('../models/user');
 var Project = require('../models/project');
 
-
 // GET route for reading data
 router.get('/', function (req, res, next) {
   return res.sendFile(path.join(__dirname + '/templateLogReg/index.html'));
-});
-
-//POST to create new Project
-router.post('/project/', function (req,res,next){
-
-  var projData = {
-    name: req.body.name,
-    author: req.session.userId,
-    description: req.body.description,
-    version: req.body.version,
-    organization: req.body.organization,
-    createDate: new Date()
-  };
-
-  User.findById(req.session.userId)
-  .exec(function (error, user) {
-    if (error) {
-      return next(error);
-    } else {
-      if (user === null) {
-        var err = new Error('Not authorized! Go back!');
-        err.status = 400;
-        return next(err);
-      } else {
-        Project.create(projData, function (error, proj) {
-          if (error) {
-            return next(error);
-          } else {
-            return res.send(JSON.stringify(proj));
-          }
-        });
-      }
-    }
-  });
 });
 
 //POST route for updating data
@@ -62,7 +27,6 @@ router.post('/', function (req, res, next) {
       email: req.body.email,
       userName: req.body.userName,
       password: req.body.password,
-      passwordConf: req.body.passwordConf,
       organization: req.body.organization
     }
 
@@ -104,17 +68,6 @@ router.delete('/:userName', function(req, res) {
   })
 });
 
-router.delete('/project/:projName', function(req, res) {
-  Project.remove({
-    name: req.params.projName
-  }, function(err, user){
-    if (err)
-      res.send(err);
-
-      res.json({message: 'Succesfully deleted ' + req.params.projName});    
-  })
-});
-
 router.delete('/email/:email', function(req, res) {
   User.remove({
     email: req.params.email
@@ -125,19 +78,6 @@ router.delete('/email/:email', function(req, res) {
       res.json({message: 'Succesfully deleted ' + req.params.email});    
   })
 });
-
-router.get('/project/:name', function (req, res, next) {
-  var queryName = req.params.name;
-  const userRegex = new RegExp(queryName, 'i')
-  Project.find({name: userRegex }, function (err, docs) { 
-    if (err){
-      res.send(err);
-    }else{
-      res.send(docs);
-    }
-  });
-})
-
 
 // GET route after registering
 router.get('/profile', function (req, res, next) {
@@ -170,5 +110,64 @@ router.get('/logout', function (req, res, next) {
     });
   }
 });
+
+/*
+//POST to create new Project
+router.post('/project/', function (req,res,next){
+
+  var projData = {
+    name: req.body.name,
+    author: req.session.userId,
+    description: req.body.description,
+    version: req.body.version,
+    organization: req.body.organization,
+    createDate: new Date()
+  };
+
+  User.findById(req.session.userId)
+  .exec(function (error, user) {
+    if (error) {
+      return next(error);
+    } else {
+      if (user === null) {
+        var err = new Error('Not authorized! Go back!');
+        err.status = 400;
+        return next(err);
+      } else {
+        Project.create(projData, function (error, proj) {
+          if (error) {
+            return next(error);
+          } else {
+            return res.send(JSON.stringify(proj));
+          }
+        });
+      }
+    }
+  });
+});
+
+router.delete('/project/:projName', function(req, res) {
+  Project.remove({
+    name: req.params.projName
+  }, function(err, user){
+    if (err)
+      res.send(err);
+
+      res.json({message: 'Succesfully deleted ' + req.params.projName});    
+  })
+});
+
+router.get('/project/:name', function (req, res, next) {
+  var queryName = req.params.name;
+  const userRegex = new RegExp(queryName, 'i')
+  Project.find({name: userRegex }, function (err, docs) { 
+    if (err){
+      res.send(err);
+    }else{
+      res.send(docs);
+    }
+  });
+})
+*/
 
 module.exports = router;

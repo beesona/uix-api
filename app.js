@@ -6,7 +6,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
 //connect to MongoDB
-mongoose.connect('mongodb://localhost/testForAuth');
+mongoose.connect('mongodb://localhost/apiDocsV1');
 var db = mongoose.connection;
 
 //handle mongo error
@@ -23,7 +23,7 @@ app.use(function(req, res, next) {
 
 //use sessions for tracking logins
 app.use(session({
-  secret: 'work hard',
+  secret: '@intn0thingBu7aGthang',
   resave: true,
   saveUninitialized: false,
   store: new MongoStore({
@@ -42,6 +42,9 @@ app.use(express.static(__dirname + '/templateLogReg'));
 // include routes
 var routes = require('./routes/router');
 app.use('/', routes);
+
+var projectRoutes = require('./routes/projects-router');
+app.use('/project', projectRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
