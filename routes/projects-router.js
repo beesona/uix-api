@@ -4,7 +4,7 @@ var User = require('../models/user');
 var Project = require('../models/project');
 
 //POST to create new Project
-router.post('/', function (req,res,next){
+projectRouter.post('/', function (req,res,next){
 
   var projData = {
     name: req.body.name,
@@ -37,7 +37,7 @@ router.post('/', function (req,res,next){
   });
 });
 
-router.delete('/:projName', function(req, res) {
+projectRouter.delete('/:projName', function(req, res) {
   Project.remove({
     name: req.params.projName
   }, function(err, user){
@@ -48,7 +48,7 @@ router.delete('/:projName', function(req, res) {
   })
 });
 
-router.get('/:name', function (req, res, next) {
+projectRouter.get('/:name', function (req, res, next) {
   var queryName = req.params.name;
   const userRegex = new RegExp(queryName, 'i')
   Project.find({name: userRegex }, function (err, docs) { 
