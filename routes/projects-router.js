@@ -48,6 +48,7 @@ projectRouter.delete('/:projName', function(req, res) {
   })
 });
 
+<<<<<<< HEAD
 projectRouter.get('/:lang/:lib/:version/:name', function (req, res, next) {
     
     var queryName = req.params.name === 'any' ? '' : req.params.name;
@@ -66,6 +67,8 @@ projectRouter.get('/:lang/:lib/:version/:name', function (req, res, next) {
     });
 })
 
+=======
+>>>>>>> 218aa44fb8db1d88950d1597da01ec0c7973b14d
 projectRouter.get('/:name', function (req, res, next) {
   var queryName = req.params.name;
   const userRegex = new RegExp(queryName, 'i')
