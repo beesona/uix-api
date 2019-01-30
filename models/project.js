@@ -30,6 +30,21 @@ var ProjectSchema = new mongoose.Schema({
   createDate: {
     type: Date,
     required: false
+  },
+  language: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  library: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  languageVersion: {
+    type: String,
+    required: true,
+    trim: true
   }
 });
 
